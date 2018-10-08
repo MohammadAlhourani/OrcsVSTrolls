@@ -1,10 +1,13 @@
-#pragma once
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 class Character
 {
 public:
 	Character();
 	~Character();
+
+	virtual void Stats();
 
 private:
 
@@ -22,12 +25,8 @@ protected:
 	int mana;
 };
 
-Character::Character()
-{
-}
 
-Character::~Character()
-{
-}
+
+#endif // !CHARACTER_H
 
 

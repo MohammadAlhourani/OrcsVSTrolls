@@ -2,9 +2,13 @@
 
 Orc::Orc()
 {
+	Stats();
 
 	alive = true;
+}
 
+void Orc::Stats()
+{
 	health = 100;
 
 	mana = 50;
@@ -24,7 +28,7 @@ void Orc::update()
 
 void Orc::hurt(int t_damage)
 {
-	health - t_damage;
+	health -= t_damage;
 }
 
 void Orc::heal()
@@ -45,12 +49,34 @@ int Orc::attack()
 	if ((rand() % 100 + 1) <= critChance)
 	{
 		damage = strength * 2;
+
+		if (angery == true)
+		{
+			damage = strength * 4;
+		}
 	}
 	else
 	{
 		damage = strength;
+
+		if (angery == true)
+		{
+			damage = strength * 2;
+		}
 	}
 	
-	
 	return damage;
+}
+
+void Orc::enrage()
+{
+	if (angery == false)
+	{
+		angery = true;
+	}
+}
+
+int Orc::getHealth()
+{
+	return health;
 }

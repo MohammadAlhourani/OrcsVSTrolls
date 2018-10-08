@@ -1,16 +1,17 @@
-#ifndef ORC_H
-#define ORC_H
+#ifndef TROLL_H
+#define TROLL_H
+
 #include "Character.h"
 #include <iostream> 
 
-class Orc : Character
+class Troll : Character
 {
 public:
-
-	Orc();
+	Troll();
+	~Troll();
 
 	void Stats();
-	
+
 	void update();
 
 	void hurt(int t_damage);
@@ -19,16 +20,13 @@ public:
 
 	int attack();
 
-	void enrage();
-
 	int getHealth();
 
+	void focus();
+
 private:
-
-	int damage = 0;
-
-	bool angery = false;
 	
+	int damage = 0;
 };
-
 #endif
+
