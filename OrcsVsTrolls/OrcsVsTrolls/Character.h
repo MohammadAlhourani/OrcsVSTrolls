@@ -16,6 +16,8 @@ protected:
 
 	bool alive = true;
 
+	bool defence = false;
+
 	int health;
 
 	int critChance;
@@ -23,6 +25,8 @@ protected:
 	int strength;
 
 	int mana;
+
+
 };
 
 

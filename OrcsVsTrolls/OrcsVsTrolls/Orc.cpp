@@ -9,7 +9,7 @@ Orc::Orc()
 
 void Orc::Stats()
 {
-	health = 100;
+	health = 0;
 
 	mana = 50;
 
@@ -20,15 +20,47 @@ void Orc::Stats()
 
 void Orc::update()
 {
-	if (health <= 0)
-	{
-		alive = false;
-	}
+	death();
 }
 
 void Orc::hurt(int t_damage)
 {
-	health -= t_damage;
+	health = health - t_damage;
+
+	switch (rand() % 3 + 1)
+	{
+		case 1:
+		{
+			std::cout << "The Orc : uuuuuuuuurrggghhhh" << std::endl;
+			break;
+		}
+		case 2:
+		{
+			std::cout << "The Orc : oooooooogghhh" << std::endl;
+			break;
+		}
+		case 3:
+		{
+			std::cout << "The Orc : oof" << std::endl;
+			break;
+		}
+		default:
+		{
+			break;
+		}
+
+	}
+
+}
+
+void Orc::defending()
+{	
+	defence = true;
+}
+
+bool Orc::getDefence()
+{
+	return defence;
 }
 
 void Orc::heal()
@@ -46,6 +78,8 @@ void Orc::heal()
 
 int Orc::attack()
 {
+	damage = strength;
+
 	if ((rand() % 100 + 1) <= critChance)
 	{
 		damage = strength * 2;
@@ -54,11 +88,11 @@ int Orc::attack()
 		{
 			damage = strength * 4;
 		}
+
+		std::cout << "critical hit!" << std::endl;
 	}
 	else
 	{
-		damage = strength;
-
 		if (angery == true)
 		{
 			damage = strength * 2;
@@ -76,7 +110,28 @@ void Orc::enrage()
 	}
 }
 
-int Orc::getHealth()
+bool Orc::getAlive()
 {
-	return health;
+	return alive;
+}
+
+void Orc::death()
+{
+	if (health <= 0)
+	{
+		std::cout << "The Orc has been defeated!!" << std::endl;
+
+		alive = false;
+	}
+}
+
+void Orc::reset()
+{
+	health = 100;
+
+	mana = 50;
+
+	alive = true;
+
+	angery = false;
 }

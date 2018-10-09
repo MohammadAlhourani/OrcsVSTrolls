@@ -15,13 +15,21 @@ public:
 
 	void hurt(int t_damage);
 
+	void defending();
+
+	bool getDefence();
+
 	void heal();
 
 	int attack();
 
 	void enrage();
 
-	int getHealth();
+	bool getAlive();
+
+	void death();
+
+	void reset();
 
 private:
 

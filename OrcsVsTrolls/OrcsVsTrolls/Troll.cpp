@@ -33,7 +33,31 @@ void Troll::update()
 
 void Troll::hurt(int t_damage)
 {
-	health -= t_damage;
+	health = health - t_damage;
+
+	switch (rand() % 4 + 1)
+	{
+	case 1:
+	{
+		std::cout << "The Troll : aaaaaaaarrggghhhh" << std::endl;
+		break;
+	}
+	case 2:
+	{
+		std::cout << "The Troll : ackkh" << std::endl;
+		break;
+	}
+	case 3:
+	{
+		std::cout << "The Troll : my disappointment is imeasurable and my day is ruined" << std::endl;
+		break;
+	}
+	default:
+	{
+		break;
+	}
+
+	}
 }
 
 void Troll::heal()
@@ -53,6 +77,8 @@ int Troll::attack()
 	if ((rand() % 100 + 1) <= critChance)
 	{
 		damage = strength * 2;
+
+		std::cout << "critical hit!" << std::endl;
 	}
 	else
 	{
@@ -69,5 +95,21 @@ int Troll::getHealth()
 
 void Troll::focus()
 {
-	mana += 20;
+	if (focused == false)
+	{
+		mana += 20;
+
+		focused = true;
+	}
+}
+
+void Troll::reset()
+{
+	alive = true;
+
+	health = 80;
+
+	mana = 80;
+
+	focused = false;
 }

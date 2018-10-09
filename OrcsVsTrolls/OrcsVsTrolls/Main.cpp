@@ -7,7 +7,11 @@
 #include "Orc.h"
 #include "Troll.h"
 
-enum PlayerType {ORC , Troll};
+void gameOver(bool &t_gameOver);
+
+enum PlayerType {ORC , TROLL};
+
+enum ACTION{ ATTACK, DEFEND, RACIAL, HEAL };
 
 struct player
 {
@@ -24,6 +28,12 @@ int main()
 	player m_player;
 
 	std::string m_playerInput = "";
+	ACTION playerAction;
+
+	Orc theOrc;
+	Troll theTroll;
+
+	int turnCount = 0;
 
 	std::cout << "Since ancient times Orcs and Trolls have waged war against each other." << std::endl;
 	std::cout << "Orcs strong and proud fought with vicous anger and strength to topple mountains." << std::endl;
@@ -56,7 +66,7 @@ int main()
 	else
 	{
 		std::cout << "You have decided to join the wise Trolls " << std::endl;
-		m_player.playertype = PlayerType::Troll;
+		m_player.playertype = PlayerType::TROLL;
 		m_player.gold = 100;
 	}
 	
@@ -64,9 +74,65 @@ int main()
 
 	while (gameOver == false)
 	{
+		theOrc.update();
+		theTroll.update();
 
+		if (m_player.playertype == PlayerType::ORC && theOrc.getAlive() == true)
+		{
+
+			std::cout << "ATTACK, DEFEND, ENRAGE, HEAL" << std::endl;
+
+			std::cin >> m_playerInput;
+
+			if (m_playerInput == "ATTACK")
+			{
+				playerAction = ACTION::ATTACK;
+			}
+			else if (m_playerInput == "DEFEND")
+			{
+				playerAction = ACTION::DEFEND;
+			}
+			else if (m_playerInput == "ENRAGE")
+			{
+				playerAction = ACTION::RACIAL;
+			}
+			else if(m_playerInput == "HEAL")
+			{
+				playerAction = ACTION::HEAL;
+			}
+
+			switch (playerAction)
+			{
+			case 0:
+				std::cout << "You are attacking" << std::endl;
+				theTroll.hurt(theOrc.attack());
+				break;
+			case 1:
+				std::cout << "You are defending" << std::endl;
+				theOrc.defending();
+				break;
+			case 2:
+				std::cout << "You are now Enraged" << std::endl;
+				break;
+			case 3:
+				std::cout << "You have healed 10 hp" << std::endl;
+				break;
+			default:
+				break;
+			}
+		}
+
+		
 	}
 
 	std::system("pause");
 	return 0;
+}
+
+void gameOver(bool & t_gameOver)
+{
+	if (t_gameOver == true)
+	{
+		std::cout << "would you like to restart the game?" << std::endl;
+	}
 }

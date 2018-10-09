@@ -24,9 +24,13 @@ public:
 
 	void focus();
 
+	void reset();
+
 private:
 	
 	int damage = 0;
+
+	bool focused = false;
 };
 #endif
 
