@@ -9,7 +9,7 @@ Orc::Orc()
 
 void Orc::Stats()
 {
-	health = 0;
+	health = 100;
 
 	mana = 50;
 
@@ -21,6 +21,21 @@ void Orc::Stats()
 void Orc::update()
 {
 	death();
+
+	if (defence == true)
+	{
+		defence = false;
+	}
+
+	if (angery == true && enrageTimer > 2)
+	{
+		enrageTimer++;
+	}
+	else if (enrageTimer == 2)
+	{
+		angery = false;
+		enrageTimer = 0;
+	}
 }
 
 void Orc::hurt(int t_damage)
@@ -91,12 +106,10 @@ int Orc::attack()
 
 		std::cout << "critical hit!" << std::endl;
 	}
-	else
+
+	if (angery == true)
 	{
-		if (angery == true)
-		{
-			damage = strength * 2;
-		}
+		damage = strength * 2;
 	}
 	
 	return damage;
@@ -113,6 +126,11 @@ void Orc::enrage()
 bool Orc::getAlive()
 {
 	return alive;
+}
+
+bool Orc::getEnrage()
+{
+	return angery;
 }
 
 void Orc::death()

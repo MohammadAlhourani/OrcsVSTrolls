@@ -7,7 +7,6 @@
 #include "Orc.h"
 #include "Troll.h"
 
-void gameOver(bool &t_gameOver);
 
 enum PlayerType {ORC , TROLL};
 
@@ -19,6 +18,8 @@ struct player
 
 	PlayerType playertype;
 };
+
+void GameOver(bool &t_gameOver, player &t_type, Orc &t_Orc, Troll &t_Troll, std::string &t_playerInput);
 
 int main()
 {
@@ -74,11 +75,19 @@ int main()
 
 	while (gameOver == false)
 	{
+		
 		theOrc.update();
 		theTroll.update();
 
+		 GameOver(gameOver, m_player,theOrc,theTroll,m_playerInput);
+
+		//IF THE PLAYER IS A ORC
 		if (m_player.playertype == PlayerType::ORC && theOrc.getAlive() == true)
 		{
+			if (theTroll.getDefence() == true)
+			{
+				std::cout << "the Troll braces itself" << std::endl;
+			}
 
 			std::cout << "ATTACK, DEFEND, ENRAGE, HEAL" << std::endl;
 
@@ -105,7 +114,21 @@ int main()
 			{
 			case 0:
 				std::cout << "You are attacking" << std::endl;
-				theTroll.hurt(theOrc.attack());
+				
+
+				if (theTroll.getDefence() == true)
+				{
+					theOrc.hurt(theTroll.attack());
+
+					std::cout << "the Troll retaliates!" << std::endl;
+					std::cout << "The Troll hits you for " << theTroll.attack();
+				}
+				else
+				{
+					theTroll.hurt(theOrc.attack());
+					std::cout << "you deal " << theOrc.attack() << " damage" << std::endl;
+				}
+
 				break;
 			case 1:
 				std::cout << "You are defending" << std::endl;
@@ -113,26 +136,190 @@ int main()
 				break;
 			case 2:
 				std::cout << "You are now Enraged" << std::endl;
+				theOrc.enrage();
 				break;
 			case 3:
 				std::cout << "You have healed 10 hp" << std::endl;
+				theOrc.heal();
 				break;
 			default:
 				break;
 			}
 		}
 
+		//IF THE PLAYER IS A TROLL
+		if (m_player.playertype == PlayerType::TROLL && theTroll.getAlive() == true)
+		{
+			if (theOrc.getDefence() == true)
+			{
+				std::cout << "The Orc braces itself" << std::endl;
+			}
+
+			std::cout << "ATTACK, DEFEND, FOCUS, HEAL" << std::endl;
+
+			std::cin >> m_playerInput;
+
+			if (m_playerInput == "ATTACK")
+			{
+				playerAction = ACTION::ATTACK;
+			}
+			else if (m_playerInput == "DEFEND")
+			{
+				playerAction = ACTION::DEFEND;
+			}
+			else if (m_playerInput == "FOCUS")
+			{
+				playerAction = ACTION::RACIAL;
+			}
+			else if (m_playerInput == "HEAL")
+			{
+				playerAction = ACTION::HEAL;
+			}
+
+			switch (playerAction)
+			{
+			case 0:
+				std::cout << "You are Attacking" << std::endl;
+				
+
+				if (theOrc.getDefence() == true)
+				{
+					theOrc.hurt(theTroll.attack());
+
+					std::cout << "the Orc retaliates!" << std::endl;
+					std::cout << "The Orc hits you for " << theOrc.attack();
+				}
+				else
+				{
+					theOrc.hurt(theTroll.attack());
+					std::cout << "you deal " << theTroll.attack() << " damage" << std::endl;
+				}
+
+				break;
+			case 1:
+				std::cout << "You are Defending" << std::endl;
+				theTroll.defending();
+				break;
+			case 2:
+				std::cout << "You are now Focused" << std::endl;
+				theTroll.focus();
+				break;
+			case 3:
+				std::cout << "You have Healed 10 hp" << std::endl;
+				theTroll.heal();
+				break;
+			default:
+				break;
+			}
+		}
+
+		//if the enemy is a orc
+		if (m_player.playertype != PlayerType::ORC && theOrc.getAlive() == true)
+		{
+			switch (rand() % 4)
+			{
+			case 0:
+				std::cout << "The Orc attacks!" << std::endl;
+				
+
+				if (theTroll.getDefence() == true)
+				{
+					theOrc.hurt(theTroll.attack());
+
+					std::cout << "You retaliate!" << std::endl;
+					std::cout << "you hit the Orc for " << theTroll.attack();
+				}
+				else
+				{
+					theTroll.hurt(theOrc.attack());
+					std::cout << "the Orc deals " << theOrc.attack() << " damage to you" << std::endl;
+				}
+
+				break;
+			case 1:
+				theOrc.defending();
+				break;
+			case 2:
+				
+				std::cout << "the Orc is now Enraged" << std::endl;
+				theOrc.enrage();
+				break;
+			case 3:
+				std::cout << "The Orc licks its wounds" << std::endl;
+				theOrc.heal();
+				break;
+			default:
+				break;
+			}
+		}
 		
+		//if the enemy is a troll
+		if (m_player.playertype != PlayerType::TROLL && theTroll.getAlive() == true)
+		{
+			switch (rand() % 4)
+			{
+			case 0:
+				std::cout << "The Troll attacks!" << std::endl;
+
+
+				if (theOrc.getDefence() == true)
+				{
+					theTroll.hurt(theOrc.attack());
+
+					std::cout << "You retaliate!" << std::endl;
+					std::cout << "you hit the Troll for " << theTroll.attack();
+				}
+				else
+				{
+					theOrc.hurt(theTroll.attack());
+					std::cout << "the Troll deals " << theTroll.attack() << " damage to you" << std::endl;
+				}
+
+				break;
+			case 1:
+				theTroll.defending();
+				break;
+			case 2:
+				std::cout << "the Troll is now Focused" << std::endl;
+				theTroll.focus();
+				break;
+			case 3:
+				std::cout << "The Troll seals its wounds with magical energy" << std::endl;
+				theTroll.heal();
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	std::system("pause");
 	return 0;
 }
 
-void gameOver(bool & t_gameOver)
+void GameOver(bool & t_gameOver, player &t_type, Orc &t_Orc, Troll &t_Troll, std::string &t_playerInput)
 {
+	
+	if (t_type.playertype == PlayerType::ORC && t_Orc.getAlive() == false)
+	{
+		t_gameOver = true;
+	}
+
+	if (t_type.playertype == PlayerType::TROLL && t_Troll.getAlive() == false)
+	{
+		t_gameOver = true;
+	}
+
 	if (t_gameOver == true)
 	{
 		std::cout << "would you like to restart the game?" << std::endl;
+
+		std::cin >> t_playerInput;
+
+		if (t_playerInput == "YES")
+		{
+			t_Orc.reset();
+			t_Troll.reset();
+		}
 	}
 }

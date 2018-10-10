@@ -25,9 +25,20 @@ void Troll::Stats()
 
 void Troll::update()
 {
-	if (health <= 0)
+	death();
+
+	if (defence == true)
 	{
-		alive = false;
+		defence = false;
+	}
+
+	if (focused == true && focusTimer > 2)
+	{
+		focusTimer++;
+	}
+	else if (focusTimer == 2)
+	{
+		focused = false;
 	}
 }
 
@@ -35,7 +46,7 @@ void Troll::hurt(int t_damage)
 {
 	health = health - t_damage;
 
-	switch (rand() % 4 + 1)
+	switch (rand() % 3 + 1)
 	{
 	case 1:
 	{
@@ -59,6 +70,8 @@ void Troll::hurt(int t_damage)
 
 	}
 }
+
+
 
 void Troll::heal()
 {
@@ -93,6 +106,21 @@ int Troll::getHealth()
 	return health;
 }
 
+void Troll::defending()
+{
+	defence = true;
+}
+
+bool Troll::getDefence()
+{
+	return defence;
+}
+
+bool Troll::getAlive()
+{
+	return alive;
+}
+
 void Troll::focus()
 {
 	if (focused == false)
@@ -112,4 +140,14 @@ void Troll::reset()
 	mana = 80;
 
 	focused = false;
+}
+
+void Troll::death()
+{
+	if (health <= 0)
+	{
+		std::cout << "The Troll has been defeated!!" << std::endl;
+
+		alive = false;
+	}
 }

@@ -22,15 +22,27 @@ public:
 
 	int getHealth();
 
+	void defending();
+
+	bool getDefence();
+
+	bool getAlive();
+
 	void focus();
 
 	void reset();
+
+	void death();
 
 private:
 	
 	int damage = 0;
 
 	bool focused = false;
+
+	bool defence = false;
+
+	int focusTimer = 0;
 };
 #endif
 

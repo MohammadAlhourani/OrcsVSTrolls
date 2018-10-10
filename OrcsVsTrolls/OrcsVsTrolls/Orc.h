@@ -27,6 +27,8 @@ public:
 
 	bool getAlive();
 
+	bool getEnrage();
+
 	void death();
 
 	void reset();
@@ -36,6 +38,8 @@ private:
 	int damage = 0;
 
 	bool angery = false;
+
+	int enrageTimer = 0;
 	
 };
 
