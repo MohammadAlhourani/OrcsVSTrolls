@@ -19,6 +19,10 @@ public:
 
 	bool getDefence();
 
+	int getHealth();
+
+	int getMana();
+
 	void heal();
 
 	int attack();

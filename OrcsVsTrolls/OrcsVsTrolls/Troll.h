@@ -22,6 +22,8 @@ public:
 
 	int getHealth();
 
+	int getMana();
+
 	void defending();
 
 	bool getDefence();

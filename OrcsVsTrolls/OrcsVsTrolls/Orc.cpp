@@ -78,6 +78,16 @@ bool Orc::getDefence()
 	return defence;
 }
 
+int Orc::getHealth()
+{
+	return health;
+}
+
+int Orc::getMana()
+{
+	return mana;
+}
+
 void Orc::heal()
 {
 	if (mana > 0)

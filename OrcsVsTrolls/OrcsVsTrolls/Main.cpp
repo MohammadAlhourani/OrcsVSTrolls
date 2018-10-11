@@ -26,6 +26,7 @@ int main()
 	srand((static_cast<int>(time(NULL))));
 
 	bool gameOver = false;
+	bool win = false;
 	player m_player;
 
 	std::string m_playerInput = "";
@@ -44,6 +45,8 @@ int main()
 	std::cout << "now choose your destiny shall you help the Orcs or the Trolls?" << std::endl;
 
 	std::cin >> m_playerInput;
+
+	
 
 	while (true)
 	{
@@ -70,20 +73,41 @@ int main()
 		m_player.playertype = PlayerType::TROLL;
 		m_player.gold = 100;
 	}
+
+	if (m_player.playertype == PlayerType::ORC)
+	{
+		std::cout << "An enemy Troll Attacks!!" << std::endl;
+	}
+	else
+	{
+		std::cout << "An enemy Orc Attacks!!" << std::endl;
+	}
 	
 	std::cout << "you have " << m_player.gold << " gold" << std::endl;
 
-	while (gameOver == false)
+	while (gameOver == false && win == false)
 	{
 		
 		theOrc.update();
 		theTroll.update();
 
+		if (m_player.playertype == PlayerType::ORC && theTroll.getAlive() == false)
+		{
+			win = true;
+		}
+		else if (m_player.playertype == PlayerType::TROLL && theOrc.getAlive() == false)
+		{
+			win = true;
+		}
+
 		 GameOver(gameOver, m_player,theOrc,theTroll,m_playerInput);
 
 		//IF THE PLAYER IS A ORC
-		if (m_player.playertype == PlayerType::ORC && theOrc.getAlive() == true)
+		if (m_player.playertype == PlayerType::ORC && theOrc.getAlive() == true && theTroll.getAlive() == true)
 		{
+			std::cout << "you have " << theOrc.getHealth() << " health" << std::endl;
+			std::cout << "you have " << theOrc.getMana() << " Mana" << std::endl;
+
 			if (theTroll.getDefence() == true)
 			{
 				std::cout << "the Troll braces itself" << std::endl;
@@ -148,8 +172,11 @@ int main()
 		}
 
 		//IF THE PLAYER IS A TROLL
-		if (m_player.playertype == PlayerType::TROLL && theTroll.getAlive() == true)
+		if (m_player.playertype == PlayerType::TROLL && theTroll.getAlive() == true && theOrc.getAlive() == true)
 		{
+			std::cout << "you have " << theTroll.getHealth() << " health" << std::endl;
+			std::cout << "you have " << theTroll.getMana() << " Mana" << std::endl;
+
 			if (theOrc.getDefence() == true)
 			{
 				std::cout << "The Orc braces itself" << std::endl;
@@ -292,7 +319,16 @@ int main()
 			}
 		}
 	}
-
+	
+	if (m_player.playertype == PlayerType::ORC && theTroll.getAlive() == false)
+	{
+		std::cout << "Well Done the Troll has been defeated!" << std::endl;
+	}
+	else if (m_player.playertype == PlayerType::TROLL && theOrc.getAlive() == false)
+	{
+		std::cout << "Well Done the Orc has been defeated!" << std::endl;
+	}
+	
 	std::system("pause");
 	return 0;
 }
@@ -310,7 +346,7 @@ void GameOver(bool & t_gameOver, player &t_type, Orc &t_Orc, Troll &t_Troll, std
 		t_gameOver = true;
 	}
 
-	if (t_gameOver == true)
+	if (t_gameOver == true )
 	{
 		std::cout << "would you like to restart the game?" << std::endl;
 

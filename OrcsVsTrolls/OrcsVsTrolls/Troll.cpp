@@ -106,6 +106,11 @@ int Troll::getHealth()
 	return health;
 }
 
+int Troll::getMana()
+{
+	return mana;
+}
+
 void Troll::defending()
 {
 	defence = true;
